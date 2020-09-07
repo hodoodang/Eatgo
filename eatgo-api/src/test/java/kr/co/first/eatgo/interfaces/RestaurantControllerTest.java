@@ -1,5 +1,8 @@
 package kr.co.first.eatgo.interfaces;
 
+import kr.co.first.eatgo.domain.MenuItemRepository;
+import kr.co.first.eatgo.domain.MenuItemRepositoryImpl;
+import kr.co.first.eatgo.domain.RestaurantRepository;
 import kr.co.first.eatgo.domain.RestaurantRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,8 +24,11 @@ class RestaurantControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @SpyBean
-    private RestaurantRepositoryImpl restaurantRepositoryImpl;
+    @SpyBean(RestaurantRepositoryImpl.class)
+    private RestaurantRepository restaurantRepository;
+
+    @SpyBean(MenuItemRepositoryImpl.class)
+    private MenuItemRepository menuItemRepository;
 
     @Test
     public void list() throws Exception {
@@ -33,6 +39,9 @@ class RestaurantControllerTest {
                 ))
                 .andExpect(content().string(
                         containsString("\"name\":\"Bob zip\"")
+                ))
+                .andExpect(content().string(
+                        containsString("Kimchi")
                 ));
     }
 
